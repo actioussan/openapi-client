@@ -1,19 +1,19 @@
 {
-  "name": "openapi-client",
-  "version": "1.0.5",
+  "name": "@actioussan/openapi-client",
+  "version": "1.1.0",
   "description": "Generate ES6 or TypeScript service integration code from an OpenAPI spec.",
   "author": {
     "name": "Mike Stead",
     "url": "https://github.com/mikestead"
   },
   "license": "MIT",
-  "homepage": "https://github.com/mikestead/openapi-client",
+  "homepage": "https://github.com/actioussan/openapi-client",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mikestead/openapi-client.git"
+    "url": "https://github.com/actioussan/openapi-client.git"
   },
   "bugs": {
-    "url": "https://github.com/mikestead/openapi-client/issues"
+    "url": "https://github.com/actioussan/openapi-client/issues"
   },
   "engines": {
     "node": ">=4.0.0",

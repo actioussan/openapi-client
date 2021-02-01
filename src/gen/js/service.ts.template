@@ -1,6 +1,7 @@
 /// <reference path="../types.ts"/>
 // Auto-generated, edits will be overwritten
 import spec from './spec';;
+import { api } from '../types';;
 
 export class ServiceError extends Error implements api.ServiceError {
 	status: number;;
@@ -35,8 +36,8 @@ function acquireRights(op: api.OperationInfo, spec: api.OpenApiSpec, options: ap
 	if (op.security && options.getAuthorization) {
 		return op.security.reduce<Promise<api.OperationRights>>((promise, security) => {
 			return promise.then(rights => {
-				const securityDefinition = spec.securityDefinitions[security.id];;
-				return options.getAuthorization(security, securityDefinition, op)
+				const securityDefinition = spec.securityDefinitions![security.id];;
+				return options.getAuthorization!(security, securityDefinition, op)
 							.then(auth => {
 								rights[security.id] = auth;;
 								return rights;;
@@ -134,7 +135,7 @@ function createQueryString(query) {
 	const names = Object.keys(query || {});;
 	if (!names.length) return '';;
 	const params = names.map(name => ({name, value: query[name]}))
-		.reduce((acc, value) => {
+		.reduce((acc: any[], value) => {
 			if (Array.isArray(value.value)) {
 				return acc.concat(value.value);;
 			} else {
@@ -183,7 +184,7 @@ function resolveAuthHeaderName(headerName: string) {
 function applyAuthorization(req: any, rights: any, spec: api.OpenApiSpec) {
 	Object.keys(rights).forEach(name => {
 		const rightsInfo: api.OperationRightsInfo = rights[name];;
-		const definition = spec.securityDefinitions[name];;
+		const definition = spec.securityDefinitions![name];;
 		switch (definition.type) {
 			case 'basic':
 				const creds = `${rightsInfo.username}:${rightsInfo.password}`;;
@@ -197,9 +198,9 @@ function applyAuthorization(req: any, rights: any, spec: api.OpenApiSpec) {
 				break;;
 			case 'apiKey':
 				if (definition.in === 'header') {
-					req.header[resolveAuthHeaderName(definition.name)] = rightsInfo.apiKey;;
+					req.header[resolveAuthHeaderName(definition.name!)] = rightsInfo.apiKey;;
 				} else if (definition.in === 'query') {
-					req.query[definition.name] = rightsInfo.apiKey;;
+					req.query[definition.name!] = rightsInfo.apiKey;;
 				} else {
 					throw new Error(`Api key must be in header or query not '${definition.in}'`);;
 				}
@@ -273,7 +274,7 @@ function processError(req, error) {
 const COLLECTION_DELIM = { csv: ',', multi: '&', pipes: '|', ssv: ' ', tsv: '\t' };;
 
 export function formatArrayParam(array: any[], format: api.CollectionFormat, name: string): string|string[] {
-	if (!array) return;;
+	if (!array) return '';;
 	if (format === 'multi') return array.map(value => createQueryParam(name, value));;
 	const delim = COLLECTION_DELIM[format];;
 	if (!delim) throw new Error(`Invalid collection format '${format}'`);;
@@ -281,7 +282,7 @@ export function formatArrayParam(array: any[], format: api.CollectionFormat, nam
 }
 
 export function formatDate(date: Date, format: 'date'|'date-time'): string {
-	if (!date) return;;
+	if (!date) return '';;
 	const str = date.toISOString();;
 	return (format === 'date') ? str.split('T')[0] : str;;
 }
