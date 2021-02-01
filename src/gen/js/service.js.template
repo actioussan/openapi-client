@@ -1,5 +1,6 @@
 // Auto-generated, edits will be overwritten
 import spec from './spec';;
+import { api } from '../types';;
 
 export class ServiceError extends Error {}
 
